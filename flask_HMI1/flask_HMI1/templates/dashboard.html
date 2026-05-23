@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>IoT Monitoring Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    async function fetchSensorData() {
+      const res = await fetch("/data");
+      const data = await res.json();
+      for (const key in data) {
+        document.getElementById(key).innerText = data[key];
+      }
+    }
+    setInterval(fetchSensorData, 2000);
+    window.onload = fetchSensorData;
+  </script>
+</head>
+<body>
+  <h1>💡 IoT Monitoring Dashboard</h1>
+
+  <div class="sensor-grid">
+    <div class="card"><div class="sensor-label">TEMP</div><div class="sensor-value" id="TEMP">N/A</div></div>
+    <div class="card"><div class="sensor-label">HUMID</div><div class="sensor-value" id="HUMID">N/A</div></div>
+    <div class="card"><div class="sensor-label">WATER</div><div class="sensor-value" id="WATER">N/A</div></div>
+    <div class="card"><div class="sensor-label">SOUND</div><div class="sensor-value" id="SOUND">N/A</div></div>
+    <div class="card"><div class="sensor-label">LIGHT</div><div class="sensor-value" id="LIGHT">N/A</div></div>
+  </div>
+
+  <form method="POST" class="button-container">
+    <button class="btn" type="submit" name="command" value="PING">Send PING</button>
+    <button class="btn" type="submit" name="command" value="TEST">Send TEST</button>
+  </form>
+</body>
+</html>
